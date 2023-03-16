@@ -1,0 +1,212 @@
+{% extends 'sellers/base.html' %}
+    {% load static %} 
+     {%block css%}
+     
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     {% endblock%}
+
+    {% block body%}
+   
+    {% load app_tags %}
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+          <h2
+            class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+          >
+           update order
+          </h2>
+          <!-- CTA -->
+         
+          <!-- Cards -->
+          
+
+          <!-- New Table -->
+          <div class="w-full overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full overflow-x-auto">
+              <table class="w-full whitespace-no-wrap">
+                <thead>
+                  <tr
+                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+                  >
+                    <th class="px-4 py-3">Products</th>
+                    <th class="px-4 py-3">Order Amount</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Details</th>
+                    <th class="px-4 py-3">Order Date</th>
+                    
+                  </tr>
+                </thead>
+                {%for i in orders %}
+                <tbody
+                  class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                >
+                  
+                  <tr class="text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3">
+                      <div class="flex items-center text-sm">
+                        <!-- Avatar with inset shadow -->
+                        <div
+                          class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                        >
+                          <img
+                            class="object-cover w-full h-full rounded-full"
+                            src={{i.product.image1.url}}
+                            alt=""
+                            loading="lazy"
+                          />
+                          <div
+                            class="absolute inset-0 rounded-full shadow-inner"
+                            aria-hidden="true"
+                          ></div>
+                        </div>
+                        <div>
+                          <p class="font-semibold">{{i.product.product_name}}</p>
+                          <p class="text-xs text-gray-600 dark:text-gray-400">
+                            Quantity-{{i.quantity}}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                     {{i.order.order_total}}
+                    </td>
+                    <td class="px-4 py-3 text-xs">
+                      <div style="">
+                        {% if i.order.status in '' %}
+                        <form style="display: inline;">
+                            <input type="text" name="odrr" value="{{i.order.id}}" style="display: none;">
+                            <input type="text" name="st" value="Accepted" style="display: none;">
+                            <button type="submit" class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Accepted</button>
+                        </form>
+                        {% endif %}
+        
+                        {% if i.order.status != 'Packed' and i.order.status != 'Delivered' %}
+                        <form style="display: inline;">
+                            <input type="text" name="odrr" value="{{i.order.id}}" style="display: none;">
+                            <input type="text" name="st" value="Packed" style="display: none;">
+                            <button type="submit" class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Packed</button>
+                        </form>
+                        {% endif %}
+                        {% if i.order.status != 'Delivered' %}
+                        <form style="display: inline;">
+                            <input type="text" name="odrr" value="{{i.order.id}}" style="display: none;">
+                            <input type="text" name="st" value="Delivered" style="display: none;">
+                            <button type="submit" class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Delivered</button>
+                        </form>
+                        {% endif %}
+                        <form style="display: inline;">
+                            <input type="text" name="odrr" value="{{i.order.id}}" style="display: none;">
+                            <input type="text" name="st" value="Cancelled" style="display: none;">
+                            <button type="submit" class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Cancel</button>
+                        </form>
+                    </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                      <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                      ORDER-DETAILS
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">ORDER-DETAILS</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="card">
+                              <h5 class="card-header">Billing Address</h5>
+                              <div class="card-body">
+                                <p class="card-text mb-0">{{i.order.full_name}}</p>
+                                <p class="card-text mb-0">{{i.order.full_address}}</p>
+                                <p class="card-text mb-0">{{i.order.city}}, {{order.state}}</p>
+                                <p class="card-text mb-0">{{i.order.country}}</p>
+                                <p class="card-text mb-0">{{i.order.email}}</p>
+                                <p class="card-text mb-0">{{i.order.phone}}</p>
+                                {% if i.order.order_note %}
+                                <b>Order Note: </b> {{i.order.order_note}}
+                                {% endif %}
+                              </div>
+                            </div>
+                            <div class="card">
+                              <h5 class="card-header">Payment Method</h5>
+                              <div class="card-body">
+                                <p class="card-text">Cash on delivery</p></div> 
+                          </div>
+                          <div class="card">
+                            <h5 class="card-header">PIN-CODE</h5>
+                            <div class="card-body">
+                              <p class="card-text">{{i.order.pincode}}</p></div> 
+                        </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                    {{i.order.created_at}}
+                    </td>
+                    
+                  </tr>
+                  
+                </tbody>
+                
+                {%endfor%}
+              </table>
+            </div>
+            <div
+              class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+            >
+              <span class="flex items-center col-span-3">
+                Showing 21-30 of 100
+              </span>
+              <span class="col-span-2"></span>
+              <!-- Pagination -->
+              <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+                <nav aria-label="Table navigation">
+                  {% if orders.has_other_pages %}
+                    <ul class="pagination inline-flex items-cente">
+                          {% if orders.has_previous %}
+                      <li class="page-item"><a class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" href="?page5={{orders.previous_page_number}}">Previous</a></li>
+                          
+                      {% else %}
+                          <li class="page-item disabled"><a class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" href="#">Previous</a></li>
+                          {% endif %}
+              
+                          {% for i in orders.paginator.page_range %}
+                              {% if orders.number == i %}
+                              <li class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple"><a class="page-link" href="#">{{i}}</a></li>
+                              {% else %}
+                                  <li class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"><a class="page-link" href="?page5={{i}}">{{i}}</a></li>
+                              {% endif %}
+                      {% endfor %}
+              
+                          {% if orders.has_next %}
+                          <li class="page-item"><a class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" href="?page5={{orders.next_page_number}}">Next</a></li>
+                          {% else %}
+                              <li class="page-item disabled"><a class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" href="#">Next</a></li>
+                          {% endif %}
+                    </ul>
+                    
+                  {% endif %}
+              </nav>
+            </span>
+            </div>
+          </div>
+
+          
+        </div>
+      </main>
+{%block js%}{%endblock%}
+    
+    {%endblock%}

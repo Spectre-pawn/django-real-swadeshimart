@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block css%}
+.img-sm {
+    width: 80px;
+    height: 80px;
+}
+{%endblock%}
+{% block title %}payments {% endblock title %}
+{% block body %}
+
+
+<section class="section-content padding-y bg">
+	<div class="container">
+		<h2 class="text-center">
+		<!-- ============================ COMPONENT 1 ================================= -->
+		Hi {{user.first_name}},
+
+YOUR ORDER HAS BEEN RECIEVED</h2>
+
+Order Number: {{order.order_number}}</h2>
+		<h4 class="text-center mb-20">Review Your Order </h4>
+       
+		<div class="row">
+
+			<aside class="col-lg-8">
+				<div class="card">
+					<h5 class="card-header">Billing Address</h5>
+					<div class="card-body">
+						<p class="card-text mb-0">{{order.full_name}}</p>
+						<p class="card-text mb-0">{{order.full_address}}</p>
+						<p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+						<p class="card-text mb-0">{{order.country}}</p>
+						<p class="card-text mb-0">{{order.email}}</p>
+						<p class="card-text mb-0">{{order.phone}}</p>
+						{% if order.order_note %}
+						<b>Order Note: </b> {{order.order_note}}
+						{% endif %}
+
+
+					</div>
+				</div>
+				<div class="card">
+					<h5 class="card-header">Payment Method</h5>
+					<div class="card-body">
+						<p class="card-text">Cash on delivery</p>
+				</div>
+				<div class="card">
+					<h5 class="card-header">Review Products</h5>
+					<div class="card-body">
+						<table class="table table-borderless table-shopping-cart">
+							<thead class="text-muted">
+								<tr class="small text-uppercase">
+									<th scope="col">Product</th>
+									<th scope="col" width="120">Quantity</th>
+									<th scope="col" width="120">Price</th>
+
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for cart_item in cart_items %}
+								<tr>
+									<td>
+										<figure class="itemside align-items-center">
+											<div class="aside"><img src="{{ cart_item.product.image1.url }}" class="img-sm"></div>
+											<figcaption class="info">
+												<a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
+												<p class="text-muted small">
+													{% if cart_item.variations.all %}
+													{% for item in cart_item.variations.all %}
+													{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }} <br>
+													{% endfor %}
+													{% endif %}
+												</p>
+											</figcaption>
+										</figure>
+									</td>
+									<td>
+										<!-- col.// -->
+										<label for="">{{cart_item.quantity}}</label>
+									</td>
+									<td>
+										<div class="price-wrap">
+											<var class="price icon-inr"> {{ cart_item.sub_total }}</var>
+											<small class="text-muted icon-inr"> {{ cart_item.product.price }} each </small>
+										</div> <!-- price-wrap .// -->
+									</td>
+
+								</tr>
+								{% endfor %}
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+			</aside> <!-- col.// -->
+			<aside class="col-lg-4">
+
+				<div class="card">
+					<div class="card-body">
+						<dl class="dlist-align">
+							<dt>Total price:</dt>
+							<dd class="text-right">&#x20B9;{{total}}</dd>
+						</dl>
+						<dl class="dlist-align">
+							<dt>Tax:</dt>
+							<dd class="text-right"> &#x20B9;{{tax}}</dd>
+						</dl>
+						<dl class="dlist-align">
+							<dt>Grand Total:</dt>
+							<dd class="text-right text-dark b"><strong>&#x20B9;{{grand_total}}</strong></dd>
+						</dl>
+						<hr>
+						<p class="text-center mb-3">
+							<img src="{% static 'images/payments.png' %}" height="26">
+						</p>
+                        <br>
+						
+			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+
+						
+
+					</div> <!-- card-body.// -->
+				</div> <!-- card.// -->
+
+			</aside> <!-- col.// -->
+
+
+		</div> <!-- row.// -->
+
+		<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+
+{% endblock %}

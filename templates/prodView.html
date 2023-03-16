@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{product.product_name}} {% endblock title %}
+{%block js%}
+<script>
+    function change_image(image){
+
+        var container = document.getElementById("main-image");
+
+       container.src = image.src;
+   }
+
+
+
+   document.addEventListener("DOMContentLoaded", function(event) {
+
+   });
+   
+   $(document).ready(function(){
+    $(".wish-icon i").click(function(){
+        $(this).toggleClass("fa-heart fa-heart-o");
+    });
+});	
+</script>
+{%endblock js%}
+{% block css %}
+.col-md-3
+{
+display: inline-block;
+margin-left:-4px;
+}
+.carousel-indicators .active {
+background-color: blue;
+}
+.col-md-3 img{
+width: 170px;
+height: 200px;
+}
+body .carousel-indicator li{
+background-color: blue;
+}
+body .carousel-indicators{
+bottom: -40px;
+}
+.carousel-indicators li {
+
+
+    background-color: #7270fc;
+}
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon{
+background-color: blue;
+}
+.carousel-control-prev,
+.carousel-control-next{
+top: auto;
+bottom: auto;
+padding-top: 222px;
+}
+body .no-padding{
+padding-left: 0,
+padding-right: 0;
+}
+.carousel-cell {
+    width: 100%;
+    }
+
+    /* cell number */
+    .carousel-cell:before {
+      display: block;
+    }
+{% endblock %}
+    {% block body %}
+    <section class="section-content padding-y bg">
+    <div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                        <div class="images p-3">
+                            <div class="text-center p-4"> <img id="main-image" height="270px" width="370"src="{{product.image1.url}}" width="250" /> </div>
+                            <div class="thumbnail text-center"> 
+                                <img onclick="change_image(this)" src="{{product.image1.url}}" width="70">
+                                {% if product.image2%}
+                                <img onclick="change_image(this)" src="{{product.image2.url}}" width="70"> 
+                                {% endif %}
+                                {% if product.image3%}
+                                <img onclick="change_image(this)" src="{{product.image3.url}}" width="70"> 
+                                {% endif %}
+                                {% if product.image4%}
+                                <img onclick="change_image(this)" src="{{product.image4.url}}" width="70"> 
+                                {%endif %}
+                                {% if product.image5%}
+                                <img onclick="change_image(this)" src="{{product.image5.url}}" width="70"> 
+                                {% endif %}
+                            </div>
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!--<form action="{% url 'add_cart' product.id %}" method="POST">
+                            {% csrf_token %}
+                        <div class="product p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span class="ml-1">Back</span> </div> <i class="fa fa-shopping-cart text-muted"></i>
+                            </div>
+                            <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">{{product.brand}}</span>
+                                <h5 class="text-uppercase">{{product.product_name}}</h5>
+                                <div class="price d-flex flex-row align-items-center"> <span class="act-price">&#x20B9;{{product.price}}</span>
+                                    <div class="ml-2"> <small class="dis-price">&#x20B9;{{product.price_not}}</small> <span>40% OFF</span> </div>
+                                </div>
+                            </div>
+                            <p class="about">{{product.desc}}</p>
+                            
+                           
+                        <button type="submit" class="btn  btn-primary"> <span class="text">Add to Cart</span> <i class="fas fa-shopping-cart"></i> </button>
+                    </div></form>-->
+                    <form action="{% url 'add_cart' product.id %}" method="POST">
+						{% csrf_token %}
+						<article class="content-body">
+
+							<h2 class="title">{{ product.product_name }}</h2>
+							<div class="rating-star">
+								<span>
+									<i class="fa fa-star{% if product.averageReview < 0.5 %}-o{% elif product.averageReview >= 0.5 and product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if product.averageReview < 1.5 %}-o{% elif product.averageReview >= 1.5 and product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if product.averageReview < 2.5 %}-o{% elif product.averageReview >= 2.5 and product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if product.averageReview < 3.5 %}-o{% elif product.averageReview >= 3.5 and product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if product.averageReview < 4.5 %}-o{% elif product.averageReview >= 4.5 and product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+	<span>{{product.countReview}} reviews</span>
+									</span>
+							</div>
+
+
+							<div class="mb-3">
+								<var class="price h4 icon-inr"> {{product.price}}</var>
+							</div>
+
+							<p>{{ product.desc }}</p>
+
+
+							<hr>
+							<div class="row">
+								<div class="item-option-select"
+									<h6>Choose Color</h6>
+									<select name="color" class="form-control" required>
+										<option value="" disabled selected>Select</option>
+										{% for i in product.variation_set.colors %}
+										<option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="item-option-select">
+									<h6>Select Size</h6>
+									<select name="size" class="form-control"required>
+										<option value="" disabled selected>Select</option>
+										{% for i in product.variation_set.sizes %}
+										<option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<hr>
+							{% if product.stock <= 0 %}
+							<h5 class="text-danger">Out of Stock</h5>
+							{% else %}
+							<button type="submit" class="btn  btn-primary"> <span class="text">Add to Cart</span> <i class="fa fa-shopping-cart"></i> </button>
+							{% endif %}
+						</article> <!-- product-info-aside .// -->
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- related product-->
+<div class="container">
+    <!--Slideshow starts here -->
+    {% for product, range, nSlides in allProds %}
+    <h1 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h1>
+    <div class="row">
+        <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
+            <ul class="carousel-indicators">
+                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                {% for i in range %}
+                <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+                {% endfor %}
+            </ul>
+            <div class="container carousel-inner no-padding">
+                <div class="carousel-item active">
+                    {% for i in product %}
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="card align-items-center" style="width: 18rem;">
+                            <img src='{{i.image1.url}}' class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+                                <!--<p class="card-text">{{i.desc|slice:"0:53"}}...</p>-->
+                                <div class="rating-star">
+                                    <span>
+                                        <i class="fa fa-star{% if i.averageReview < 0.5 %}-o{% elif i.averageReview >= 0.5 and i.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                        <i class="fa fa-star{% if i.averageReview < 1.5 %}-o{% elif i.averageReview >= 1.5 and i.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                        <i class="fa fa-star{% if i.averageReview < 2.5 %}-o{% elif i.averageReview >= 2.5 and i.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                        <i class="fa fa-star{% if i.averageReview < 3.5 %}-o{% elif i.averageReview >= 3.5 and i.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                        <i class="fa fa-star{% if i.averageReview < 4.5 %}-o{% elif i.averageReview >= 4.5 and i.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+            <span>{{i.countReview}} reviews</span>
+                                        </span>
+                                </div>
+                                <h6 class="card-title" >Price: <span id="pricepr{{i.id}}"class="icon-inr">{{i.price}}</span></h6>
+                               <!-- <span id="divpr{{i.product_id}}" class="divpr">
+                                    <button id="pr{{i.product_id}}" class="btn btn-primary cart">Add To Cart</button>
+                                </span>-->
+                            
+                                <a href="{{ i.get_url }}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+                </div>
+                <div class="carousel-item">
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- left and right controls for the slide -->
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+
+<div class="container">
+<div class="row">
+    <div class="col-md-9">
+
+
+
+        <form action="{% url 'submit_review' product.id %}" method="POST">
+            {% csrf_token %}
+            <h5>Write Your Review</h5>
+
+            <div>
+                <!-- Rating stars -->
+                <label>How do you rate this product?</label>
+                <br>
+                <div class="rate">
+                    <input type="radio" name="rating" id="rating10" value="5" required /><label for="rating10" title="5"></label>
+                    <input type="radio" name="rating" id="rating9" value="4.5" required /><label for="rating9" title="4.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating8" value="4" required /><label for="rating8" title="4"></label>
+                    <input type="radio" name="rating" id="rating7" value="3.5" required /><label for="rating7" title="3.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating6" value="3" required /><label for="rating6" title="3"></label>
+                    <input type="radio" name="rating" id="rating5" value="2.5" required /><label for="rating5" title="2.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating4" value="2" required /><label for="rating4" title="2"></label>
+                    <input type="radio" name="rating" id="rating3" value="1.5" required /><label for="rating3" title="1.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating2" value="1" required /><label for="rating2" title="1"></label>
+                    <input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
+                </div>
+<br>
+                Review Title:
+                <input type="text" class="form-control" name="subject">
+                <br>
+                Review:
+                <textarea name="review" rows="4" class="form-control"></textarea>
+                <br>
+                {% if user.is_authenticated %}
+                    {% if orderproduct %}
+                        <input type="submit" value="Submit Review" class="btn btn-primary">
+                    {% else %}
+                        <p>You must purchase this product to post a review.</p>
+                    {% endif %}
+                {% else %}
+                <p>You must be logged in to post a review. <span><a href="{% url 'login_register' %}">Login now</a></span></p>
+                {% endif %}
+
+            </div>
+{% include 'includes/alerts.html' %}
+        </form>
+<br>
+<header class="section-heading">
+<h3>Customer Reviews </h3>
+<div class="rating-star">
+<span>
+    <i class="fa fa-star{% if product.averageReview < 0.5 %}-o{% elif product.averageReview >= 0.5 and product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+    <i class="fa fa-star{% if product.averageReview < 1.5 %}-o{% elif product.averageReview >= 1.5 and product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+    <i class="fa fa-star{% if product.averageReview < 2.5 %}-o{% elif product.averageReview >= 2.5 and product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+    <i class="fa fa-star{% if product.averageReview < 3.5 %}-o{% elif product.averageReview >= 3.5 and product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+    <i class="fa fa-star{% if product.averageReview < 4.5 %}-o{% elif product.averageReview >= 4.5 and product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+<span>{{product.countReview}} reviews</span>
+    </span>
+</div>
+
+</header>
+
+{% for review in reviews %}
+        <article class="box mb-3">
+            <div class="icontext w-100">
+
+                <div class="text">
+                    <span class="date text-muted float-md-right">{{review.updated_at}} </span>
+                    <h6 class="mb-1">{{review.user.full_name}} </h6>
+                    <div class="rating-star">
+                        <span>
+                            <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                            <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                            <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                            <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                            <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div> <!-- icontext.// -->
+            <div class="mt-3">
+                <h6>{{review.subject}}</h6>
+                <p>
+                    {{review.review}}
+                </p>
+            </div>
+        </article>
+{% endfor %}
+
+
+    </div> <!-- col.// -->
+</div> <!-- row.// -->
+
+
+</div>
+<div class="container">
+</section>
+<script>
+    $(document).ready(function(){
+        $(".wish-icon i").click(function(){
+            $(this).toggleClass("fa-heart fa-heart-o");
+        });
+    });	
+    </script>
+    </head>
+    <body>
+    
+{% endblock %}
+
+

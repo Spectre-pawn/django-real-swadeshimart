@@ -1,0 +1,145 @@
+{% extends 'sellers/base.html' %}
+    {% load static %}
+   
+     {%block css%}
+     {% endblock%}
+    {% block body%}
+   
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}}">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <h2
+            class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+          >
+            Add products
+          </h2>
+          <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row">
+              <div class="col-md">
+                <div>
+                  <label for="ProductName"  class="text-gray-700 dark:text-gray-400">Product Name</label>
+                  <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" id="ProductName" name="prod_name" placeholder="Enter Product Name" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div>
+                  <label for="ProductName"  class="text-gray-700 dark:text-gray-400">Brand name</label>
+                  <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" id="Brand name" name="brand_name" placeholder="Enter brand Name" required>
+                </div>
+              </div>
+           <div class="col-md-2">
+                  <label for="ProductName" class="text-gray-700 dark:text-gray-400">Category</label>
+                <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="category" id="id_category">
+                  <option selected>-----</option>
+                  {% for sc in subcat %}
+                  <option value="{{sc.0.id}}">{{sc.0}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label for="ProductName" class="text-gray-700 dark:text-gray-400">SubCategory</label>
+                <select name="subcategory" id="id_subcategory" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" >
+                  <option selected>-----</option>
+                </select>
+              </div>
+              
+			
+              <div class="col-md-2">
+                <label for="ProductName" class="text-gray-700 dark:text-gray-400">Price</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                  </div>
+                  <input type="number" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" aria-label="Amount (to the nearest dollar)" name="price" required>
+                  
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label for="ProductName" class="text-gray-700 dark:text-gray-400">Price Not</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                  </div>
+                  <input type="number" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" aria-label="Amount (to the nearest dollar)" name="price_not" required>
+                  
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label for="ProductName" class="text-gray-700 dark:text-gray-400">Stock</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                  </div>
+                  <input type="number" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" aria-label="Amount (to the nearest dollar)" name="stock" required>
+                  
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-10">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="text-gray-700 dark:text-gray-400">Description</span>
+                  </div>
+                  <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  rows="3"
+                  placeholder="Enter some long form content." rows="1"  name="desc"></textarea>
+                </div>
+              </div>
+              
+            </div>
+          
+            
+            <label for="ProductName" class="text-gray-700 dark:text-gray-400">
+              <span class="text-gray-700 dark:text-gray-400">
+                Images
+              </span></label>
+            <div class="row">
+              <div class="col-md ">
+                <input type="file" name="image1" accept="image/*" class=" clearablefileinput text-gray-700 dark:text-gray-400" required>
+              </div>
+              <div class="col-md mt-2">
+                <input type="file" name="image2" accept="image/*" class="clearablefileinput text-gray-700 dark:text-gray-400">
+              </div>
+              <div class="col-md mt-2">
+                <input type="file" name="image3" accept="image/*" class="clearablefileinput text-gray-700 dark:text-gray-400 ">
+              </div>
+              <div class="col-md mt-2">
+                <input type="file" name="image4" accept="image/*" class="clearablefileinput text-gray-700 dark:text-gray-400">
+              </div>
+              <div class="col-md mt-2">
+                <input type="file" name="image5" accept="image/*" class="clearablefileinput text-gray-700 dark:text-gray-400">
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col flex-wrap mb-4 space-y-4 md:flex-row md:items-end md:space-x-4">
+            <button type="submit"  @click="closeModal"
+            class=" px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add</button>
+          </form> 
+            </div>
+
+
+        </div>
+    </main>
+
+    <script type="text/javascript">
+      function subcat() {
+        {% for sc in subcat %}
+        if (document.getElementById('id_category').value == {{sc.0.id}}) {
+        $("#id_subcategory")
+          .replaceWith('<select id="id_subcategory" name="subcategory" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">' +
+             {% for op in sc|slice:"1:" %}
+                '<option value="{{op}}">{{op}}</option>' +
+               {% endfor %}
+              '</select>');
+        }
+          {% endfor %}
+      }
+      subcat();
+      document.getElementById('id_category').onchange = subcat;
+    </script>
+    {%endblock%}

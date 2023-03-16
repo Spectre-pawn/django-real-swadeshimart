@@ -1,0 +1,54 @@
+{% extends 'sellers/base.html' %}
+{% load static %}
+
+{% block body%}
+{% load crispy_forms_tags %}
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mx-auto grid">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}}">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      <h2
+        class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+      >
+        Add variations
+      </h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+       <div class="col-md-2">
+              <label for="ProductName" class="text-gray-700 dark:text-gray-400">product</label>
+            <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="prod_name" id="prod_name">
+              <option selected>-----</option>
+              {% for sc in product %}
+              <option value="{{sc.id}}">                    
+                {{sc.product_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="ProductName" class="text-gray-700 dark:text-gray-400">product variations</label>
+          <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="variation" id="id_variation">
+            <option selected>-----</option>
+          
+            <option value="color">color</option>
+            <option value="size">size</option>
+        
+          </select>
+        </div>
+          <div class="col-md">
+            <div>
+              <label for="ProductName"  class="text-gray-700 dark:text-gray-400">Variation value</label>
+              <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" id="varvalue" name="varvalue" placeholder="Enter variations" required>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-col flex-wrap mb-4 space-y-4 md:flex-row md:items-end md:space-x-4">
+            <button type="submit"  @click="closeModal"
+            class=" px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add</button>
+            </form>
+        
+    </div>
+</main>
+{%endblock%}
